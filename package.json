@@ -1,0 +1,40 @@
+{
+  "name": "fullstack-javascript",
+  "version": "1.0.0",
+  "description": "Learning FullStack Javascript Development",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node server.js --ignore public/",
+    "dev": "webpack -wd",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thenet84/fullstack-javascript.git"
+  },
+  "author": "Denet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thenet84/fullstack-javascript/issues"
+  },
+  "homepage": "https://github.com/thenet84/fullstack-javascript#readme",
+  "dependencies": {
+    "babel-eslint": "^8.2.6",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^5.1.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "nodemon": "^1.18.3",
+    "webpack": "^4.16.1"
+  }
+}
