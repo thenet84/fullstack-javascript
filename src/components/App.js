@@ -1,15 +1,28 @@
 import React from 'react';
 import Header from './Header';
 
-const App = () => {
-  return (
-    <div>
-      <Header message='Naming Contest' />
-      <div>
+class App extends React.Component {
+  state = {
+    pageHeader: 'Naming Contest'
+  };
+  componentDidMount(){
+    console.log('Did mount');
+  }
 
+  componentWillUnmount(){
+    console.log('Will unmount');
+  }
+  
+  render(){
+    return (
+      <div>
+        <Header message={this.state.pageHeader} />
+        <div>
+  
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default App;
