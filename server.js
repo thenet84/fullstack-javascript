@@ -3,15 +3,20 @@ import express from 'express';
 import apiRouter from './api';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
+import serverRender from './serverRender';
 
 const server = express();
 
-import './serverRender';
 server.set('view engine', 'ejs');
 server.get('/',(req, res) =>{
-  res.render('index', {
-    content: ''
-  });
+  serverRender()
+    .then(({initialMarkup, initialData})=>{
+      res.render('index', {
+        initialMarkup,
+        initialData
+      });
+    })
+    .catch(console.error);
 });
 
 server.use(sassMiddleware({
