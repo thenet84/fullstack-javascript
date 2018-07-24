@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/thenet84/fullstack-javascript#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-eslint": "^8.2.6",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
