@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 
 ReactDOM.hydrate(
-  <App initialContests={window.initialData.contests}/>,
+  <App initialData={window.initialData}/>,
   document.getElementById('root')
 );
 

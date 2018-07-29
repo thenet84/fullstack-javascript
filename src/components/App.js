@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as api from '../api';
 import Header from './Header';
 import ContestList from './ContestList';
@@ -9,18 +10,19 @@ const pushState = (obj, url) => {
 };
 
 class App extends React.Component {
-  state = {
-    pageHeader: 'Naming Contest',
-    contests: this.props.initialContests
+  
+  static propTypes = {
+    initialData : PropTypes.object.isRequired
   };
+  state = this.props.initialData;
 
   componentDidMount(){
-    api.fetchContestList().then(contests => {
+    /*api.fetchContestList().then(contests => {
       this.setState({
         contests: contests
       });
     })
-      .catch(console.error);
+      .catch(console.error);*/
   }
 
   componentWillUnmount(){
@@ -34,7 +36,6 @@ class App extends React.Component {
     );
     api.fetchContest(contestId).then(contest => {
       this.setState({
-        pageHeader: contest.contestName,
         currentContestId: contest.id,
         constest: {
           ...this.state.contests,
@@ -43,6 +44,14 @@ class App extends React.Component {
       });
     });
   };
+
+  pageHeader(){
+    if(this.state.currentContestId){
+      return this.currentContest().contestName;
+    }
+    return 'Naming Contest';
+  }
+
   currentContest(){
     return this.state.contests[this.state.currentContestId];
   }
@@ -59,7 +68,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        <Header message={this.state.pageHeader} />
+        <Header message={this.pageHeader()} />
         {this.currentContent()}
       </div>
     );
