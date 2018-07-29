@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
+import * as api from '../api';
 import Header from './Header';
 import ContestList from './ContestList';
+import Contest from './Contest';
 
 const pushState = (obj, url) => {
   window.history.pushState(obj, '', url);
@@ -14,14 +15,12 @@ class App extends React.Component {
   };
 
   componentDidMount(){
-    axios.get('/api/contests')
-      .then(resp => {
-        this.setState({
-          contests: resp.data.contests
-        });
-      })
+    api.fetchContestList().then(contests => {
+      this.setState({
+        contests: contests
+      });
+    })
       .catch(console.error);
-    
   }
 
   componentWillUnmount(){
@@ -33,15 +32,35 @@ class App extends React.Component {
       {currentContestId: contestId},
       '/contest/'+contestId
     );
+    api.fetchContest(contestId).then(contest => {
+      this.setState({
+        pageHeader: contest.contestName,
+        currentContestId: contest.id,
+        constest: {
+          ...this.state.contests,
+          [contestId]: contest
+        }
+      });
+    });
+  };
+  currentContest(){
+    return this.state.contests[this.state.currentContestId];
   }
-  
+
+  currentContent(){
+    if(this.state.currentContestId){
+      return <Contest {...this.currentContest()} />;
+    }
+    return <ContestList 
+      onContestClick = {this.fetchContest}
+      contests={this.state.contests} />;
+  }
+
   render(){
     return (
       <div>
         <Header message={this.state.pageHeader} />
-        <ContestList 
-          onContestClick = {this.fetchContest}
-          contests={this.state.contests} />
+        {this.currentContent()}
       </div>
     );
   }
