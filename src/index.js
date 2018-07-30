@@ -9,5 +9,12 @@ ReactDOM.hydrate(
   document.getElementById('root')
 );
 
+setTimeout(()=>{
+  ReactDOM.hydrate(
+    <h2>Clear!!</h2>,
+    document.getElementById('root')
+  );
+},4000);
+
 
 

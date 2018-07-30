@@ -9,6 +9,10 @@ const pushState = (obj, url) => {
   window.history.pushState(obj, '', url);
 };
 
+const onPopState = handler => {
+  window.onpopstate = handler;
+};
+
 class App extends React.Component {
   
   static propTypes = {
@@ -17,16 +21,15 @@ class App extends React.Component {
   state = this.props.initialData;
 
   componentDidMount(){
-    /*api.fetchContestList().then(contests => {
+    onPopState((event) => {
       this.setState({
-        contests: contests
+        currentContestId: (event.state || {}).currentContestId,
       });
-    })
-      .catch(console.error);*/
+    });
   }
 
   componentWillUnmount(){
-    //console.log('Will unmount');
+    onPopState(null);
   }
 
   fetchContest = (contestId) =>{
@@ -37,10 +40,23 @@ class App extends React.Component {
     api.fetchContest(contestId).then(contest => {
       this.setState({
         currentContestId: contest.id,
-        constest: {
+        contests: {
           ...this.state.contests,
           [contestId]: contest
         }
+      });
+    });
+  };
+
+  fetchContestList = () =>{
+    pushState(
+      {currentContestId: null},
+      '/'
+    );
+    api.fetchContestList().then(contests => {
+      this.setState({
+        currentContestId: null,
+        contests
       });
     });
   };
@@ -58,7 +74,9 @@ class App extends React.Component {
 
   currentContent(){
     if(this.state.currentContestId){
-      return <Contest {...this.currentContest()} />;
+      return <Contest 
+        contestListClick = {this.fetchContestList}
+        {...this.currentContest()} />;
     }
     return <ContestList 
       onContestClick = {this.fetchContest}
