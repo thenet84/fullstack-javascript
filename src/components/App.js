@@ -32,7 +32,7 @@ class App extends React.Component {
     onPopState(null);
   }
 
-  fetchContest = (contestId) =>{
+  fetchContest = contestId =>{
     pushState(
       {currentContestId: contestId},
       '/contest/'+contestId
@@ -46,7 +46,7 @@ class App extends React.Component {
         }
       });
     });
-  };
+  }
 
   fetchContestList = () =>{
     pushState(
@@ -59,7 +59,25 @@ class App extends React.Component {
         contests
       });
     });
-  };
+  }
+
+  fetchNames = nameIds =>{
+    if(nameIds.length === 0){
+      return;
+    }
+    api.fetchNames(nameIds).then(names => {
+      this.setState({
+        names
+      });
+    });
+  }
+
+  lookupName = nameId =>{
+    if(!this.state.names || !this.state.names[nameId]){
+      return { name: '...'};
+    }
+    return this.state.names[nameId];
+  }
 
   pageHeader(){
     if(this.state.currentContestId){
@@ -76,6 +94,8 @@ class App extends React.Component {
     if(this.state.currentContestId){
       return <Contest 
         contestListClick = {this.fetchContestList}
+        fetchNames = {this.fetchNames}
+        lookupName = {this.lookupName}
         {...this.currentContest()} />;
     }
     return <ContestList 

@@ -11,11 +11,6 @@ MongoClient.connect(config.mongodbUri, (err, client) => {
 
 const router = express.Router();
 
-/*const contests = data.contests.reduce((obj,contest) =>{
-  obj[contest.id] = contest; 
-  return obj;
-},{});*/
-
 router.get('/contests', (req, res) =>{
   let contests = {};
   mdb.collection('contests').find({})
@@ -28,7 +23,7 @@ router.get('/contests', (req, res) =>{
       assert.equal(null, err);
       if(!contest){
         res.send({
-          contests: contests
+          contests
         });
         return;
       }
@@ -40,6 +35,24 @@ router.get('/contests/:contestId', (req, res) =>{
   mdb.collection('contests').findOne({id: Number(req.params.contestId)})
     .then(contest => res.send(contest))
     .catch(console.error);
+});
+
+router.get('/names/:nameIds', (req, res) =>{
+  const nameIds = req.params.nameIds.split(',').map(Number);
+  let names = {};
+  setTimeout(()=>{
+    mdb.collection('names').find({id: {$in: nameIds}})
+      .each((err, name) => {
+        assert.equal(null, err);
+        if(!name){
+          res.send({
+            names
+          });
+          return;
+        }
+        names[name.id] = name;
+      });
+  }, 4000);
 });
 
 export default router;
