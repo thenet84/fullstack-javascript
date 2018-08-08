@@ -4,7 +4,7 @@ import config from './config';
 
 MongoClient.connect(config.mongodbUri, (err, client) =>{
   assert.equal(null, err);
-  const db = client.db('test');
+  const db = client.db('tests');
 
   let contestCount = 0;
   db.collection('contests').find({}).each((err,contest) =>{
@@ -18,7 +18,15 @@ MongoClient.connect(config.mongodbUri, (err, client) =>{
       .project({_id: 1})
       .toArray()
       .then(_ids =>{
-        console.log(_ids)
+        let newIds = _ids.map(i=>i._id);
+        db.collection('contests').updateOne(
+          {'id': contest.id},
+          {$set: {'nameIds': newIds}}
+        ).then(()=>{
+          contestCount--;
+          if(contestCount===0)client.close();
+          console.log('Updated');
+        });
       });
 
 
