@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NewNameForm from './NewNameForm';
 
 class Contest extends React.Component{
   componentDidMount(){
@@ -20,6 +21,8 @@ class Contest extends React.Component{
               </li>
             )}
           </ul>
+          -------------------
+          <NewNameForm />
         </div>
         <div className='home-link link' onClick={this.props.contestListClick}>
           Contest list

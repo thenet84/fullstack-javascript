@@ -24,3 +24,10 @@ export const fetchNames = (nameIds) => {
     .catch(console.error);
 };
 
+export const insertName = (newName, contestId) => {
+  return axios.post('/api/names/', {newName, contestId})
+    .then(
+      console.log('Inserted name')
+    ).catch(console.error);
+};
+
