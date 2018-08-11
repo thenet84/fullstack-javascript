@@ -22,7 +22,9 @@ class Contest extends React.Component{
             )}
           </ul>
           -------------------
-          <NewNameForm />
+          <NewNameForm 
+            addName={this.props.addName}
+            contestId={this.props._id} />
         </div>
         <div className='home-link link' onClick={this.props.contestListClick}>
           Contest list
@@ -35,10 +37,12 @@ class Contest extends React.Component{
 
 
 Contest.propTypes = {
+  _id: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  nameIds: PropTypes.array.isRequired,
   fetchNames: PropTypes.func.isRequired,
   lookupName: PropTypes.func.isRequired,
-  nameIds: PropTypes.array.isRequired,
+  addName: PropTypes.func.isRequired,
   contestListClick: PropTypes.func.isRequired
 };
 
